@@ -18,7 +18,9 @@ import {
 	CookieIcon,
 } from "@radix-ui/react-icons";
 
-type PROPS = {
+type Props = {
+	linkUrl: string;
+	linkTitle: string;
 	date: string;
 	leftOptionImageUrl: string;
 	rightOptionImageUrl: string;
@@ -28,13 +30,15 @@ type PROPS = {
 };
 
 const CardProduct = ({
+	linkUrl,
+	linkTitle,
 	date,
 	leftOptionImageUrl,
 	rightOptionImageUrl,
 	title,
 	note,
 	categories,
-}: PROPS) => {
+}: Props) => {
 	return (
 		<Card className="mb-3">
 			<Text as="div" size="5" weight="bold" align="center">
@@ -49,9 +53,9 @@ const CardProduct = ({
 							className="w-full h-full object-contain"
 						/>
 					</AspectRatio>
-					<Link href="#">
+					<Link href={linkUrl}>
 						<Flex align="center">
-							<Text weight="medium">PURE DELI</Text>
+							<Text weight="medium">{linkTitle}</Text>
 							<ArrowTopRightIcon width="18" height="18" />
 						</Flex>
 					</Link>
@@ -90,14 +94,14 @@ const CardProduct = ({
 				<Box className="w-full p-2 border-2 border-lime-700 rounded-md">
 					<AspectRatio ratio={1 / 1} className="mb-3">
 						<img
-							src={leftOptionImageUrl}
-							alt="left-option-image"
+							src={rightOptionImageUrl}
+							alt="right-option-image"
 							className="w-full h-full object-contain"
 						/>
 					</AspectRatio>
-					<Link href="#">
+					<Link href={linkUrl}>
 						<Flex align="center">
-							<Text weight="medium">PURE DELI</Text>
+							<Text weight="medium">{linkTitle}</Text>
 							<ArrowTopRightIcon width="18" height="18" />
 						</Flex>
 					</Link>

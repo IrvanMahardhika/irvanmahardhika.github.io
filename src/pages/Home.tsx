@@ -1,40 +1,32 @@
 import React from "react";
+import { useLoaderData } from "react-router";
 import { Box } from "@radix-ui/themes";
 
 import CardProduct from "components/cardProduct";
 
+import { ProductResponse } from "data/types/api";
+
 const Home: React.FC = () => {
+	const loadData = useLoaderData() as ProductResponse;
+
+	const data = loadData?.results || [];
+
 	return (
-		<Box className="p-6">
-			<Box>
-				<CardProduct
-					date="2017-11-04T18:48:46.250Z"
-					leftOptionImageUrl="https://rickandmortyapi.com/api/character/avatar/183.jpeg"
-					rightOptionImageUrl="https://rickandmortyapi.com/api/character/avatar/183.jpeg"
-					title="Vegan hummus wrap"
-					note="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-						veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-						commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-						velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-						cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-						est laborum."
-					categories={["Vegan", "Gluten free"]}
-				/>
-				<CardProduct
-					date="2017-11-04T18:48:46.250Z"
-					leftOptionImageUrl="https://rickandmortyapi.com/api/character/avatar/183.jpeg"
-					rightOptionImageUrl="https://rickandmortyapi.com/api/character/avatar/183.jpeg"
-					title="Vegan hummus wrap"
-					note="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-						veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-						commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-						velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-						cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-						est laborum."
-					categories={["Vegan", "Gluten free"]}
-				/>
+		<Box className="p-6 h-full">
+			<Box className="h-full overflow-scroll">
+				{data.map((d, idx) => (
+					<CardProduct
+						key={idx.toString()}
+						linkUrl={d.url}
+						linkTitle={d.origin.name}
+						date={d.created}
+						leftOptionImageUrl={d.image}
+						rightOptionImageUrl={d.image}
+						title={d.name}
+						note={d.location.name}
+						categories={[d.status, d.species, d.gender]}
+					/>
+				))}
 			</Box>
 		</Box>
 	);
