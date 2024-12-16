@@ -18,3 +18,5 @@ export interface ProductType {
 	url: string;
 	created: string;
 }
+
+export type SelectedProduct = { id: number; side: "left" | "right" };

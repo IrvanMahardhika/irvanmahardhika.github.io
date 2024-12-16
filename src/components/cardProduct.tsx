@@ -16,9 +16,13 @@ import {
 	PlusIcon,
 	ColorWheelIcon,
 	CookieIcon,
+	CheckIcon,
 } from "@radix-ui/react-icons";
 
+import { SelectedProduct } from "data/types/product";
+
 type Props = {
+	id: number;
 	linkUrl: string;
 	linkTitle: string;
 	date: string;
@@ -27,9 +31,12 @@ type Props = {
 	title: string;
 	note: string;
 	categories: Array<string>;
+	selectedProducts: Array<SelectedProduct>;
+	handleSelectProduct: (val: SelectedProduct) => void;
 };
 
 const CardProduct = ({
+	id,
 	linkUrl,
 	linkTitle,
 	date,
@@ -38,14 +45,26 @@ const CardProduct = ({
 	title,
 	note,
 	categories,
+	selectedProducts,
+	handleSelectProduct,
 }: Props) => {
+	const isLeftSelected = selectedProducts.some(
+		(d) => d.id === id && d.side === "left",
+	);
+	const isRightSelected = selectedProducts.some(
+		(d) => d.id === id && d.side === "right",
+	);
+
 	return (
 		<Card className="mb-3">
 			<Text as="div" size="5" weight="bold" align="center">
 				{moment(date).format("dddd, D MMMM")}
 			</Text>
 			<Grid columns="2" gap="3" className="w-full mt-2">
-				<Box className="w-full p-2 border-2 border-lime-700 rounded-md">
+				<Box
+					className={`w-full p-2 border-2 rounded-md ${
+						isLeftSelected ? "border-lime-700" : ""
+					}`}>
 					<AspectRatio ratio={1 / 1} className="mb-3">
 						<img
 							src={leftOptionImageUrl}
@@ -81,17 +100,27 @@ const CardProduct = ({
 								<CookieIcon width="18" height="18" color="white" />
 							</IconButton>
 						</Flex>
-						<IconButton radius="full" color="teal">
-							<PlusIcon
-								width="18"
-								height="18"
-								color="black"
-								className="cursor-pointer"
-							/>
-						</IconButton>
+						{isLeftSelected ? (
+							<IconButton radius="full" color="teal">
+								<CheckIcon width="18" height="18" color="black" />
+							</IconButton>
+						) : (
+							<IconButton radius="full" color="gray">
+								<PlusIcon
+									width="18"
+									height="18"
+									color="black"
+									className="cursor-pointer"
+									onClick={() => handleSelectProduct({ id, side: "left" })}
+								/>
+							</IconButton>
+						)}
 					</Flex>
 				</Box>
-				<Box className="w-full p-2 border-2 border-lime-700 rounded-md">
+				<Box
+					className={`w-full p-2 border-2 rounded-md ${
+						isRightSelected ? "border-lime-700" : ""
+					}`}>
 					<AspectRatio ratio={1 / 1} className="mb-3">
 						<img
 							src={rightOptionImageUrl}
@@ -127,14 +156,21 @@ const CardProduct = ({
 								<CookieIcon width="18" height="18" color="white" />
 							</IconButton>
 						</Flex>
-						<IconButton radius="full" color="teal">
-							<PlusIcon
-								width="18"
-								height="18"
-								color="black"
-								className="cursor-pointer"
-							/>
-						</IconButton>
+						{isRightSelected ? (
+							<IconButton radius="full" color="teal">
+								<CheckIcon width="18" height="18" color="black" />
+							</IconButton>
+						) : (
+							<IconButton radius="full" color="gray">
+								<PlusIcon
+									width="18"
+									height="18"
+									color="black"
+									className="cursor-pointer"
+									onClick={() => handleSelectProduct({ id, side: "right" })}
+								/>
+							</IconButton>
+						)}
 					</Flex>
 				</Box>
 			</Grid>
